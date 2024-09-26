@@ -5,7 +5,20 @@ dotenv.config({
     path:"./env"
 });
 
-connectDB();
+connectDB()
+.then(()=>{
+    app.on((error)=>{
+        console.log("Error :",error)
+        throw error;
+
+    });
+    app.listen(process.env.PORT||8000,()=>{
+        console.log(`server is live on ${process.env.PORT}`);
+    });
+})
+.catch((error)=>{
+    console.log("MONGODB connection failed",error)
+});
 
 
 // import mongoose from "mongoose"
