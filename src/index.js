@@ -1,4 +1,4 @@
-
+import {app} from "./app.js"
 import connectDB from "./db/index.js"
 import dotenv from 'dotenv'
 dotenv.config({
@@ -7,7 +7,7 @@ dotenv.config({
 
 connectDB()
 .then(()=>{
-    app.on((error)=>{
+    app.on("error ",(error)=>{
         console.log("Error :",error)
         throw error;
 
