@@ -18,7 +18,7 @@ const userSchema = new Schema(
             lowercase:true,
             trim:true,
         },
-        fullname:{
+        fullName:{
             type:String,
             required:true,
             trim:true,
@@ -53,10 +53,10 @@ const userSchema = new Schema(
     )
 
 //pre middelware for userschema password upgradation
-userSchema.pre("save",function(next){  //arrow function does not have this keyword
-    if(!this.isModified(password))  return next();
+userSchema.pre("save",async function(next){  //arrow function does not have this keyword
+    if(!this.isModified("password"))  return next(); //take password as string
  
-    this.password = bcrypt.hash(this.password,10) //salt rounds=10
+    this.password = await bcrypt.hash(this.password,10) //salt rounds=10
     next()
 });
 
@@ -76,7 +76,7 @@ userSchema.methods.generateAccessToken =  function(){
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn:ACCESS_TOKEN_EXPIRY
+            expiresIn:process.env.ACCESS_TOKEN_EXPIRY
         }
         );
     
@@ -89,7 +89,7 @@ userSchema.methods.generateRefreshToken =  function(){
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn:REFRESH_TOKEN_EXPIRY
+            expiresIn:process.env.REFRESH_TOKEN_EXPIRY
         }
         );
     
