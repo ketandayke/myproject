@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { loginUser, logoutUser, registerUser } from "../controllers/user.controller.js"
+import { changePassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateUserDetails } from "../controllers/user.controller.js"
 import {upload} from "../middelwares/multer.middelware.js"
 import { verifyJwT } from "../middelwares/auth.middelware.js"
 
@@ -27,4 +27,23 @@ router.route("/login").post(loginUser);
 // route for logout user
 
 router.route("/logout").post(verifyJwT,logoutUser);
+
+// route for updating users side access token and refreshtoken
+
+router.route("/refersh-token").post(refreshAccessToken);
+
+// route for change users password
+router.route("/change-password").post(verifyJwT,changePassword);
+
+// route for getting current users data
+router.route("/get-user").get(verifyJwT,getCurrentUser);
+
+//route for update user details
+router.route("/update-user-details").post(verifyJwT,updateUserDetails)
+
+//route for update user details
+router.route("/update-user-avatar").post(upload.single,verifyJwT,updateUserDetails)
+
+//route for update user details
+router.route("/update-user-details").post(upload.single,verifyJwT,updateUserDetails)
 export default router ;
